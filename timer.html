@@ -23,7 +23,7 @@ Timer variant by [Jeremy Gibbons](https://www.cs.ox.ac.uk/people/jeremy.gibbons/
     var game = null;
 
     function createGame() {
-      game = new Game(initial_time, 'info', 'player1clock');
+      game = new Game(initial_time, 'info', 'clock');
       game.resetClocks();
     }
 
@@ -134,7 +134,7 @@ Timer variant by [Jeremy Gibbons](https://www.cs.ox.ac.uk/people/jeremy.gibbons/
       margin: 50px 50px;
       font-size: 1000%;
     }
-    #player1clock {
+    #clock {
       color: #000088;
       text-align: center; // JG was float: left
     }
@@ -154,6 +154,6 @@ Timer variant by [Jeremy Gibbons](https://www.cs.ox.ac.uk/people/jeremy.gibbons/
 </head>
 <body style='' onkeypress='game.keypress(event)' onload='createGame()'>
   <div id='info' class='hidden'>-</div>
-  <div id='player1clock'>0</div>
+  <div id='clock'>0</div>
 </body>
 </html>
