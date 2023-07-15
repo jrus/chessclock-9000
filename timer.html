@@ -86,7 +86,8 @@ Timer variant by [Jeremy Gibbons](https://www.cs.ox.ac.uk/people/jeremy.gibbons/
       // right half of keyboard
       else if (("yuiop[]\hjkl;'nm,./".indexOf(keychar) != -1)
                || ARROWS(key)) {
-        this.player2.play(); }
+        this.player1.play(); // JG was this.player2.play(); 
+        }
       else if (key == SPACEBAR) {
         this.pause(); }
       else if (key == ESCAPE) {
