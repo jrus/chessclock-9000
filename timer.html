@@ -39,20 +39,20 @@ Timer variant by [Jeremy Gibbons](https://www.cs.ox.ac.uk/people/jeremy.gibbons/
         (seconds + '.' + decimal);
     }
 
-    function Player(clock_id, initial_time, game) {
+    function Timer(clock_id, initial_time, game) {
       this.clock = document.getElementById(clock_id);
       this.initial_time = initial_time;
       this.time = this.initial_time;
       this.game = game;
     }
-    Player.prototype.play = function() {
-      var player = this;
+    Timer.prototype.play = function() {
+      var timer = this;
       var game = this.game;
       if (!game.game_over) {
         clearTimeout(game.timer_loop);
         game.timer_loop = setInterval(function(){
-          player.time -= 1;
-          if (player.time == 0) {
+          timer.time -= 1;
+          if (timer.time == 0) {
             clearTimeout(game.timer_loop);
             game.game_over = true;
             game.info.innerHTML = 'STOP!'; // JG was 'GAME OVER';
@@ -69,7 +69,7 @@ Timer variant by [Jeremy Gibbons](https://www.cs.ox.ac.uk/people/jeremy.gibbons/
       this.info = document.getElementById(info_id);
       this.help = document.getElementById(help_id);
       this.help.innerHTML = 'any letter to start; space to pause; +/= adds 5min, -/_ subtracts; }]/{[ for 1min';
-      this.clock = new Player(clock_id, initial_time, this);
+      this.clock = new Timer(clock_id, initial_time, this);
       this.timer_loop = null;
       this.game_over = false;
     }
