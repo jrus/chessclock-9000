@@ -92,15 +92,15 @@ Timer variant by [Jeremy Gibbons](https://www.cs.ox.ac.uk/people/jeremy.gibbons/
       else if (key == ESCAPE) {
         this.resetClocks(); }
       else if ('=+'.indexOf(keychar) != -1) {
-        this.player1.initial_time += 300;
-        this.player2.initial_time += 300;
+        this.player1.initial_time += 3000; // JG 5-minute increments (was 30s)
+        this.player2.initial_time += 3000;
         this.resetClocks(); }
       else if ('-_'.indexOf(keychar) != -1) {
-        if (this.player1.initial_time >= 600) {
-          this.player1.initial_time -= 300;          
+        if (this.player1.initial_time >= 6000) {
+          this.player1.initial_time -= 3000;          
         }
-        if (this.player2.initial_time >= 600) {
-          this.player2.initial_time -= 300;          
+        if (this.player2.initial_time >= 6000) {
+          this.player2.initial_time -= 3000;          
         }
         this.resetClocks();
       }
