@@ -23,7 +23,7 @@ Timer variant by [Jeremy Gibbons](https://www.cs.ox.ac.uk/people/jeremy.gibbons/
     var game = null;
 
     function createGame() {
-      game = new Game(initial_time, 'info', 'player1clock', 'player2clock');
+      game = new Game(initial_time, 'info', 'player1clock');
       game.resetClocks();
     }
 
@@ -65,10 +65,9 @@ Timer variant by [Jeremy Gibbons](https://www.cs.ox.ac.uk/people/jeremy.gibbons/
       }
     }
 
-    function Game(initial_time, info_id, p1_clock_id, p2_clock_id) {
+    function Game(initial_time, info_id, p1_clock_id) {
       this.info = document.getElementById(info_id);
       this.player1 = new Player(p1_clock_id, initial_time, this);
-      this.player2 = new Player(p2_clock_id, initial_time, this);
       this.timer_loop = null;
       this.game_over = false;
     }
@@ -82,7 +81,7 @@ Timer variant by [Jeremy Gibbons](https://www.cs.ox.ac.uk/people/jeremy.gibbons/
       // right half of keyboard
       else if (("yuiop[]\hjkl;'nm,./".indexOf(keychar) != -1)
                || ARROWS(key)) {
-        this.player1.play(); // JG was this.player2.play(); 
+        this.player1.play();
         }
       else if (key == SPACEBAR) {
         this.pause(); }
@@ -90,14 +89,10 @@ Timer variant by [Jeremy Gibbons](https://www.cs.ox.ac.uk/people/jeremy.gibbons/
         this.resetClocks(); }
       else if ('=+'.indexOf(keychar) != -1) {
         this.player1.initial_time += 3000; // JG 5-minute increments (was 30s)
-        this.player2.initial_time += 3000;
         this.resetClocks(); }
       else if ('-_'.indexOf(keychar) != -1) {
         if (this.player1.initial_time >= 6000) {
           this.player1.initial_time -= 3000;          
-        }
-        if (this.player2.initial_time >= 6000) {
-          this.player2.initial_time -= 3000;          
         }
         this.resetClocks();
       }
@@ -121,16 +116,13 @@ Timer variant by [Jeremy Gibbons](https://www.cs.ox.ac.uk/people/jeremy.gibbons/
     // Show the timers
     Game.prototype.displayTimers = function() {
       this.player1.clock.innerHTML = formatTime(this.player1.time);
-      this.player2.clock.innerHTML = formatTime(this.player2.time);
     }
     // Reset the clocks
     Game.prototype.resetClocks = function() {
       clearTimeout(this.timer_loop);
       this.player1.clock.className = '';
-      this.player2.clock.className = '';
       this.info.className = 'hidden';
       this.player1.time = this.player1.initial_time;
-      this.player2.time = this.player2.initial_time;
       this.game_over = false;
       this.displayTimers();
     }
@@ -145,10 +137,6 @@ Timer variant by [Jeremy Gibbons](https://www.cs.ox.ac.uk/people/jeremy.gibbons/
     #player1clock {
       color: #000088;
       text-align: center; // JG was float: left
-    }
-    #player2clock {
-      color: #005500;
-      float: right;
     }
     .now_playing {
       border-bottom: .2em solid #aa0000;
@@ -167,6 +155,5 @@ Timer variant by [Jeremy Gibbons](https://www.cs.ox.ac.uk/people/jeremy.gibbons/
 <body style='' onkeypress='game.keypress(event)' onload='createGame()'>
   <div id='info' class='hidden'>-</div>
   <div id='player1clock'>0</div>
-  <div id='player2clock'>0</div>
 </body>
 </html>
