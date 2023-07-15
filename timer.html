@@ -44,7 +44,6 @@ Timer variant by [Jeremy Gibbons](https://www.cs.ox.ac.uk/people/jeremy.gibbons/
       this.initial_time = initial_time;
       this.time = this.initial_time;
       this.game = game;
-      this.opponent = null;
     }
     Player.prototype.play = function() {
       var player = this;
@@ -61,7 +60,6 @@ Timer variant by [Jeremy Gibbons](https://www.cs.ox.ac.uk/people/jeremy.gibbons/
           }
           game.displayTimers();
         }, 100);
-        opponent.clock.className = 'now_playing';
         this.clock.className = '';
         game.info.className = 'hidden';
       }
@@ -71,8 +69,6 @@ Timer variant by [Jeremy Gibbons](https://www.cs.ox.ac.uk/people/jeremy.gibbons/
       this.info = document.getElementById(info_id);
       this.player1 = new Player(p1_clock_id, initial_time, this);
       this.player2 = new Player(p2_clock_id, initial_time, this);
-      this.player1.opponent = this.player2;
-      this.player2.opponent = this.player1;
       this.timer_loop = null;
       this.game_over = false;
     }
