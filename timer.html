@@ -23,7 +23,7 @@ Timer variant by [Jeremy Gibbons](https://www.cs.ox.ac.uk/people/jeremy.gibbons/
     var game = null;
 
     function createGame() {
-      game = new Game(initial_time, 'info', 'clock');
+	game = new Game(initial_time, 'info', 'clock', 'help');
       game.resetClocks();
     }
 
@@ -65,8 +65,10 @@ Timer variant by [Jeremy Gibbons](https://www.cs.ox.ac.uk/people/jeremy.gibbons/
       }
     }
 
-    function Game(initial_time, info_id, clock_id) {
+    function Game(initial_time, info_id, clock_id, help_id) {
       this.info = document.getElementById(info_id);
+      this.help = document.getElementById(help_id);
+      this.help.innerHTML = 'any letter to start; space to pause; +/= adds 5min, -/_ subtracts; }]/{[ for 1min';
       this.clock = new Player(clock_id, initial_time, this);
       this.timer_loop = null;
       this.game_over = false;
@@ -151,6 +153,12 @@ Timer variant by [Jeremy Gibbons](https://www.cs.ox.ac.uk/people/jeremy.gibbons/
       text-align: center;
       width: 100%;
     }
+    #help {
+      font-size: 10%;
+      color: #00AA00;
+      text-align: center;
+      width: 100%;
+    }
     .hidden {
       visibility: hidden;
     }
@@ -159,5 +167,6 @@ Timer variant by [Jeremy Gibbons](https://www.cs.ox.ac.uk/people/jeremy.gibbons/
 <body style='' onkeypress='game.keypress(event)' onload='createGame()'>
   <div id='info' class='hidden'>-</div>
   <div id='clock'>0</div>
+  <div id='help'>-</div>
 </body>
 </html>
