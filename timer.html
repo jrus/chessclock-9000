@@ -75,24 +75,28 @@ Timer variant by [Jeremy Gibbons](https://www.cs.ox.ac.uk/people/jeremy.gibbons/
     Game.prototype.keypress = function(e) {
       var key = e.charCode || e.keyCode || 0;
       var keychar = String.fromCharCode(key);
-      // left half of keyboard
-      if ('qwertasdfgzxcvb'.indexOf(keychar) != -1) {
+      // any letter
+      if ('qwertyuiopasdfghjklzxcvbnm'.indexOf(keychar) != -1) {
         this.clock.play(); }
-      // right half of keyboard
-      else if (("yuiop[]\hjkl;'nm,./".indexOf(keychar) != -1)
-               || ARROWS(key)) {
-        this.clock.play();
-        }
       else if (key == SPACEBAR) {
         this.pause(); }
       else if (key == ESCAPE) {
         this.resetClocks(); }
       else if ('=+'.indexOf(keychar) != -1) {
         this.clock.initial_time += 3000; // JG 5-minute increments (was 30s)
-        this.resetClocks(); }
+          this.resetClocks(); }
       else if ('-_'.indexOf(keychar) != -1) {
         if (this.clock.initial_time >= 6000) {
           this.clock.initial_time -= 3000;          
+        }
+        this.resetClocks();
+      }
+      else if (']}'.indexOf(keychar) != -1) {
+        this.clock.initial_time += 600; // JG 1-minute increments
+          this.resetClocks(); }
+      else if ('[{'.indexOf(keychar) != -1) {
+        if (this.clock.initial_time >= 1200) {
+          this.clock.initial_time -= 600;          
         }
         this.resetClocks();
       }
