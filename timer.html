@@ -1,0 +1,172 @@
+<!-- Source code
+© 2007 [Jacob Rus](http://www.hcs.harvard.edu/~jrus/).
+
+Released under the MIT License, see license.md
+
+Timer variant by [Jeremy Gibbons](https://www.cs.ox.ac.uk/people/jeremy.gibbons/).
+
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8'>
+  <title>Timer (after Jacob Rus)</title>
+  <script>
+    var SPACEBAR = 32;
+    var ESCAPE = 27;
+    var ARROWS = function(key) {
+      return (key >= 37 && key <= 40) || (key >= 63232 && key <= 63235);
+    };
+
+    var initial_time = 10 * 60 * 30; // JG 30 minutes (was 5)
+    var game = null;
+
+    function createGame() {
+	game = new Game(initial_time, 'info', 'clock', 'help');
+      game.resetClocks();
+    }
+
+    function formatTime(tenths) {
+      var minutes = String(Math.floor(tenths/600));
+      var seconds = String(Math.floor(tenths/10) % 60);
+      if (seconds.length == 1) { seconds = '0' + seconds;}
+      var decimal = String(tenths % 10);
+  
+      // if we have no minutes, include tenths of a second
+      return (minutes != '0') ?
+        (minutes + ':' + seconds) :
+        (seconds + '.' + decimal);
+    }
+
+    function Timer(clock_id, initial_time, game) {
+      this.clock = document.getElementById(clock_id);
+      this.initial_time = initial_time;
+      this.time = this.initial_time;
+      this.game = game;
+    }
+    Timer.prototype.play = function() {
+      var timer = this;
+      var game = this.game;
+      if (!game.game_over) {
+        clearTimeout(game.timer_loop);
+        game.timer_loop = setInterval(function(){
+          timer.time -= 1;
+          if (timer.time == 0) {
+            clearTimeout(game.timer_loop);
+            game.game_over = true;
+            game.info.innerHTML = 'STOP!'; // JG was 'GAME OVER';
+            game.info.className = '';
+          }
+          game.displayTimers();
+        }, 100);
+        this.clock.className = '';
+        game.info.className = 'hidden';
+      }
+    }
+
+    function Game(initial_time, info_id, clock_id, help_id) {
+      this.info = document.getElementById(info_id);
+      this.help = document.getElementById(help_id);
+      this.help.innerHTML = '+=/-_ for up/down by 5min; }]/{[ by 1min; any letter to start; space to pause';
+      this.clock = new Timer(clock_id, initial_time, this);
+      this.timer_loop = null;
+      this.game_over = false;
+    }
+    // Dispatcher when we press a key
+    Game.prototype.keypress = function(e) {
+      var key = e.charCode || e.keyCode || 0;
+      var keychar = String.fromCharCode(key);
+      // any letter
+      if ('qwertyuiopasdfghjklzxcvbnm'.indexOf(keychar) != -1) {
+        this.clock.play(); }
+      else if (key == SPACEBAR) {
+        this.pause(); }
+      else if (key == ESCAPE) {
+        this.resetClocks(); }
+      else if ('=+'.indexOf(keychar) != -1) {
+        this.clock.initial_time += 3000; // JG 5-minute increments (was 30s)
+          this.resetClocks(); }
+      else if ('-_'.indexOf(keychar) != -1) {
+        if (this.clock.initial_time >= 6000) {
+          this.clock.initial_time -= 3000;          
+        }
+        this.resetClocks();
+      }
+      else if (']}'.indexOf(keychar) != -1) {
+        this.clock.initial_time += 600; // JG 1-minute increments
+          this.resetClocks(); }
+      else if ('[{'.indexOf(keychar) != -1) {
+        if (this.clock.initial_time >= 1200) {
+          this.clock.initial_time -= 600;          
+        }
+        this.resetClocks();
+      }
+    }
+    Game.prototype.pause = function() {
+      if (!this.game_over) {
+        var info = this.info; 
+        info.innerHTML = 'PAUSED';
+        info.className = '';
+        clearTimeout(this.timer_loop);
+        this.timer_loop = setInterval(function(){
+          if (info.className == '') {
+            info.className = 'hidden';
+          }
+          else {
+            info.className = '';
+          }
+        }, 500);
+      }
+    }
+    // Show the timers
+    Game.prototype.displayTimers = function() {
+      this.clock.clock.innerHTML = formatTime(this.clock.time);
+    }
+    // Reset the clocks
+    Game.prototype.resetClocks = function() {
+      clearTimeout(this.timer_loop);
+      this.clock.clock.className = '';
+      this.info.className = 'hidden';
+      this.clock.time = this.clock.initial_time;
+      this.game_over = false;
+      this.displayTimers();
+    }
+  </script>
+  <style>
+    body {
+      background-color: #FFFFAA;
+      font-family: 'Trebuchet MS', sans-serif;
+      margin: 50px 50px;
+      font-size: 1800%;
+    }
+    #clock {
+      color: #000088;
+      text-align: center; // JG was float: left
+    }
+    .now_playing {
+      border-bottom: .2em solid #aa0000;
+    }
+    #info {
+      font-size: 80%;
+      color: #AA0000;
+      text-align: center;
+      width: 100%;
+    }
+    #help {
+      font-size: 10%;
+      color: #00AA00;
+      text-align: center;
+      width: 100%;
+    }
+    .hidden {
+      visibility: hidden;
+    }
+  </style>
+</head>
+<body style='' onkeypress='game.keypress(event)' onload='createGame()'>
+  <div id='info' class='hidden'>-</div>
+  <div id='clock'>0</div>
+  <div id='help'>-</div>
+</body>
+</html>
