@@ -65,9 +65,9 @@ Timer variant by [Jeremy Gibbons](https://www.cs.ox.ac.uk/people/jeremy.gibbons/
       }
     }
 
-    function Game(initial_time, info_id, p1_clock_id) {
+    function Game(initial_time, info_id, clock_id) {
       this.info = document.getElementById(info_id);
-      this.player1 = new Player(p1_clock_id, initial_time, this);
+      this.clock = new Player(clock_id, initial_time, this);
       this.timer_loop = null;
       this.game_over = false;
     }
@@ -77,22 +77,22 @@ Timer variant by [Jeremy Gibbons](https://www.cs.ox.ac.uk/people/jeremy.gibbons/
       var keychar = String.fromCharCode(key);
       // left half of keyboard
       if ('qwertasdfgzxcvb'.indexOf(keychar) != -1) {
-        this.player1.play(); }
+        this.clock.play(); }
       // right half of keyboard
       else if (("yuiop[]\hjkl;'nm,./".indexOf(keychar) != -1)
                || ARROWS(key)) {
-        this.player1.play();
+        this.clock.play();
         }
       else if (key == SPACEBAR) {
         this.pause(); }
       else if (key == ESCAPE) {
         this.resetClocks(); }
       else if ('=+'.indexOf(keychar) != -1) {
-        this.player1.initial_time += 3000; // JG 5-minute increments (was 30s)
+        this.clock.initial_time += 3000; // JG 5-minute increments (was 30s)
         this.resetClocks(); }
       else if ('-_'.indexOf(keychar) != -1) {
-        if (this.player1.initial_time >= 6000) {
-          this.player1.initial_time -= 3000;          
+        if (this.clock.initial_time >= 6000) {
+          this.clock.initial_time -= 3000;          
         }
         this.resetClocks();
       }
@@ -115,14 +115,14 @@ Timer variant by [Jeremy Gibbons](https://www.cs.ox.ac.uk/people/jeremy.gibbons/
     }
     // Show the timers
     Game.prototype.displayTimers = function() {
-      this.player1.clock.innerHTML = formatTime(this.player1.time);
+      this.clock.clock.innerHTML = formatTime(this.clock.time);
     }
     // Reset the clocks
     Game.prototype.resetClocks = function() {
       clearTimeout(this.timer_loop);
-      this.player1.clock.className = '';
+      this.clock.clock.className = '';
       this.info.className = 'hidden';
-      this.player1.time = this.player1.initial_time;
+      this.clock.time = this.clock.initial_time;
       this.game_over = false;
       this.displayTimers();
     }
