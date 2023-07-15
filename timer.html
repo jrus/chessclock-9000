@@ -47,13 +47,13 @@ Timer variant by [Jeremy Gibbons](https://www.cs.ox.ac.uk/people/jeremy.gibbons/
       this.opponent = null;
     }
     Player.prototype.play = function() {
-      var opponent = this.opponent;
+      var player = this;
       var game = this.game;
       if (!game.game_over) {
         clearTimeout(game.timer_loop);
         game.timer_loop = setInterval(function(){
-          opponent.time -= 1;
-          if (opponent.time == 0) {
+          player.time -= 1;
+          if (player.time == 0) {
             clearTimeout(game.timer_loop);
             game.game_over = true;
             game.info.innerHTML = 'STOP!'; // JG was 'GAME OVER';
