@@ -56,7 +56,7 @@ Timer variant by [Jeremy Gibbons](https://www.cs.ox.ac.uk/people/jeremy.gibbons/
           if (opponent.time == 0) {
             clearTimeout(game.timer_loop);
             game.game_over = true;
-            game.info.innerHTML = 'GAME OVER';
+            game.info.innerHTML = 'STOP!'; // JG was 'GAME OVER';
             game.info.className = '';
           }
           game.displayTimers();
