@@ -68,7 +68,7 @@ Timer variant by [Jeremy Gibbons](https://www.cs.ox.ac.uk/people/jeremy.gibbons/
     function Game(initial_time, info_id, clock_id, help_id) {
       this.info = document.getElementById(info_id);
       this.help = document.getElementById(help_id);
-      this.help.innerHTML = 'any letter to start; space to pause; +/= adds 5min, -/_ subtracts; }]/{[ for 1min';
+      this.help.innerHTML = '+=/-_ for up/down by 5min; }]/{[ by 1min; any letter to start; space to pause';
       this.clock = new Timer(clock_id, initial_time, this);
       this.timer_loop = null;
       this.game_over = false;
